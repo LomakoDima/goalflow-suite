@@ -43,20 +43,20 @@ export function AddTaskDialog() {
       <DialogTrigger asChild>
         <Button size="sm" className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90">
           <Plus className="h-4 w-4" />
-          Задача
+          Task
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md bg-card border-border">
         <DialogHeader>
-          <DialogTitle className="font-display">Новая задача</DialogTitle>
+          <DialogTitle className="font-display">New Task</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label className="text-xs text-muted-foreground">Название</Label>
+            <Label className="text-xs text-muted-foreground">Title</Label>
             <Input
               value={title}
               onChange={e => setTitle(e.target.value)}
-              placeholder="Что нужно сделать?"
+              placeholder="What needs to be done?"
               className="mt-1 bg-secondary border-0"
               autoFocus
             />
@@ -64,20 +64,20 @@ export function AddTaskDialog() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs text-muted-foreground">Приоритет</Label>
+              <Label className="text-xs text-muted-foreground">Priority</Label>
               <Select value={priority} onValueChange={v => setPriority(v as Priority)}>
                 <SelectTrigger className="mt-1 bg-secondary border-0">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="high">🔴 Высокий</SelectItem>
-                  <SelectItem value="medium">🟡 Средний</SelectItem>
-                  <SelectItem value="low">🟢 Низкий</SelectItem>
+                  <SelectItem value="high">🔴 High</SelectItem>
+                  <SelectItem value="medium">🟡 Medium</SelectItem>
+                  <SelectItem value="low">🟢 Low</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">Помидоры</Label>
+              <Label className="text-xs text-muted-foreground">Pomodoros</Label>
               <Input
                 type="number"
                 min={1}
@@ -90,7 +90,7 @@ export function AddTaskDialog() {
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Дедлайн</Label>
+            <Label className="text-xs text-muted-foreground">Deadline</Label>
             <Input
               type="datetime-local"
               value={deadline}
@@ -101,10 +101,10 @@ export function AddTaskDialog() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs text-muted-foreground">Категория</Label>
+              <Label className="text-xs text-muted-foreground">Category</Label>
               <Select value={categoryId} onValueChange={setCategoryId}>
                 <SelectTrigger className="mt-1 bg-secondary border-0">
-                  <SelectValue placeholder="Без категории" />
+                  <SelectValue placeholder="No category" />
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map(c => (
@@ -114,10 +114,10 @@ export function AddTaskDialog() {
               </Select>
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">Цель</Label>
+              <Label className="text-xs text-muted-foreground">Goal</Label>
               <Select value={goalId} onValueChange={setGoalId}>
                 <SelectTrigger className="mt-1 bg-secondary border-0">
-                  <SelectValue placeholder="Без цели" />
+                  <SelectValue placeholder="No goal" />
                 </SelectTrigger>
                 <SelectContent>
                   {goals.map(g => (
@@ -129,7 +129,7 @@ export function AddTaskDialog() {
           </div>
 
           <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-            Создать задачу
+            Create Task
           </Button>
         </form>
       </DialogContent>

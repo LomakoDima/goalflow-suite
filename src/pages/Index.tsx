@@ -51,12 +51,12 @@ function MainContent() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="font-display text-2xl font-bold text-foreground">
-                {activeView === 'tasks' ? 'Задачи' : 'Цели'}
+                {activeView === 'tasks' ? 'Tasks' : 'Goals'}
               </h2>
               <p className="text-sm text-muted-foreground mt-0.5">
                 {activeView === 'tasks'
-                  ? `${standaloneTasks.filter(t => !t.completed).length} активных задач`
-                  : `${filteredGoals.length} целей`
+                  ? `${standaloneTasks.filter(t => !t.completed).length} active tasks`
+                  : `${filteredGoals.length} goals`
                 }
               </p>
             </div>
@@ -69,9 +69,9 @@ function MainContent() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="priority">По приоритету</SelectItem>
-                      <SelectItem value="deadline">По дедлайну</SelectItem>
-                      <SelectItem value="created">По дате</SelectItem>
+                      <SelectItem value="priority">By Priority</SelectItem>
+                      <SelectItem value="deadline">By Deadline</SelectItem>
+                      <SelectItem value="created">By Date</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -86,7 +86,7 @@ function MainContent() {
             <div className="space-y-2">
               {sortedTasks.length === 0 && (
                 <div className="text-center py-16">
-                  <p className="text-muted-foreground text-sm">Нет задач. Создайте первую!</p>
+                  <p className="text-muted-foreground text-sm">No tasks yet. Create your first one!</p>
                 </div>
               )}
               {sortedTasks.map(task => (
@@ -97,7 +97,7 @@ function MainContent() {
             <div className="space-y-4">
               {filteredGoals.length === 0 && (
                 <div className="text-center py-16">
-                  <p className="text-muted-foreground text-sm">Нет целей. Создайте первую!</p>
+                  <p className="text-muted-foreground text-sm">No goals yet. Create your first one!</p>
                 </div>
               )}
               {filteredGoals.map(goal => (

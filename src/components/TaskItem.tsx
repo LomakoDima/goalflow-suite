@@ -6,12 +6,12 @@ import {
   Check, ChevronDown, ChevronRight, Clock, Flame, Trash2, Plus, X
 } from 'lucide-react';
 import { format, isPast, isToday, isTomorrow } from 'date-fns';
-import { ru } from 'date-fns/locale';
+
 
 const priorityConfig = {
-  high: { label: 'Высокий', class: 'text-priority-high', dot: 'bg-priority-high' },
-  medium: { label: 'Средний', class: 'text-priority-medium', dot: 'bg-priority-medium' },
-  low: { label: 'Низкий', class: 'text-priority-low', dot: 'bg-priority-low' },
+  high: { label: 'High', class: 'text-priority-high', dot: 'bg-priority-high' },
+  medium: { label: 'Medium', class: 'text-priority-medium', dot: 'bg-priority-medium' },
+  low: { label: 'Low', class: 'text-priority-low', dot: 'bg-priority-low' },
 };
 
 export function TaskItem({ task }: { task: Task }) {
@@ -27,9 +27,9 @@ export function TaskItem({ task }: { task: Task }) {
 
   const formatDeadline = () => {
     if (!deadlineDate) return null;
-    if (isToday(deadlineDate)) return `Сегодня, ${format(deadlineDate, 'HH:mm')}`;
-    if (isTomorrow(deadlineDate)) return `Завтра, ${format(deadlineDate, 'HH:mm')}`;
-    return format(deadlineDate, 'd MMM, HH:mm', { locale: ru });
+    if (isToday(deadlineDate)) return `Today, ${format(deadlineDate, 'HH:mm')}`;
+    if (isTomorrow(deadlineDate)) return `Tomorrow, ${format(deadlineDate, 'HH:mm')}`;
+    return format(deadlineDate, 'MMM d, HH:mm');
   };
 
   const handleAddSubtask = () => {
@@ -158,7 +158,7 @@ export function TaskItem({ task }: { task: Task }) {
               value={newSubtask}
               onChange={e => setNewSubtask(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleAddSubtask()}
-              placeholder="Добавить подзадачу..."
+              placeholder="Add subtask..."
               className="text-xs bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground w-full"
             />
           </div>

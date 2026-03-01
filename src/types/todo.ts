@@ -53,8 +53,8 @@ export const POMODORO_DURATIONS: Record<PomodoroMode, number> = {
 };
 
 export const DEFAULT_CATEGORIES: Category[] = [
-  { id: 'work', name: 'Работа', color: '220 70% 55%' },
-  { id: 'personal', name: 'Личное', color: '280 65% 55%' },
-  { id: 'study', name: 'Учёба', color: '160 60% 45%' },
-  { id: 'health', name: 'Здоровье', color: '0 72% 55%' },
+  { id: 'work', name: 'Work', color: '220 70% 55%' },
+  { id: 'personal', name: 'Personal', color: '280 65% 55%' },
+  { id: 'study', name: 'Study', color: '160 60% 45%' },
+  { id: 'health', name: 'Health', color: '0 72% 55%' },
 ];

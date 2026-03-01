@@ -66,7 +66,7 @@ export function PomodoroTimer() {
       <div className="flex items-center gap-2 mb-4">
         <Timer className={cn("h-4 w-4", isWork ? "text-pomodoro" : "text-pomodoro-break")} />
         <h3 className="font-display font-semibold text-sm text-foreground">Pomodoro</h3>
-        <span className="ml-auto text-xs text-muted-foreground">{sessionsCompleted} сессий</span>
+        <span className="ml-auto text-xs text-muted-foreground">{sessionsCompleted} sessions</span>
       </div>
 
       {/* Mode Tabs */}
@@ -82,7 +82,7 @@ export function PomodoroTimer() {
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
-            {m === 'work' ? 'Работа' : m === 'short-break' ? 'Перерыв' : 'Длинный'}
+            {m === 'work' ? 'Work' : m === 'short-break' ? 'Break' : 'Long Break'}
           </button>
         ))}
       </div>
@@ -152,7 +152,7 @@ export function PomodoroTimer() {
       {isWork && (
         <Select value={activeTaskId || ''} onValueChange={v => setActiveTaskId(v || null)}>
           <SelectTrigger className="h-8 text-xs bg-secondary border-0">
-            <SelectValue placeholder="Привязать к задаче..." />
+            <SelectValue placeholder="Link to a task..." />
           </SelectTrigger>
           <SelectContent>
             {incompleteTasks.map(t => (
