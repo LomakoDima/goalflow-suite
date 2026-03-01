@@ -1,6 +1,7 @@
 import { useTodo } from '@/stores/TodoContext';
-import { Target, Plus, FolderOpen, LayoutGrid } from 'lucide-react';
+import { Target, FolderOpen, LayoutGrid } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { StreakWidget } from '@/components/StreakWidget';
 
 interface AppSidebarProps {
   activeView: 'tasks' | 'goals';
@@ -14,7 +15,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
   const completedTasks = tasks.filter(t => t.completed).length;
 
   return (
-    <div className="w-64 bg-sidebar border-r border-sidebar-border flex flex-col h-full">
+    <div className="w-72 bg-sidebar border-r border-sidebar-border flex flex-col h-full">
       <div className="p-5 border-b border-sidebar-border">
         <h1 className="font-display text-lg font-bold text-foreground tracking-tight">
           Focus<span className="text-primary">Flow</span>
@@ -98,6 +99,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
             );
           })}
         </div>
+      </div>
+
+      <div className="p-3">
+        <StreakWidget />
       </div>
 
       <div className="mt-auto p-3 border-t border-sidebar-border">

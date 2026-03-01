@@ -1,5 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { Task, Goal, Category, SubTask, DEFAULT_CATEGORIES } from '@/types/todo';
+import {
+  StreakState,
+  loadStreakFromStorage,
+  saveStreakToStorage,
+  recordActivity as recordStreakActivity,
+  useStreakFreeze as applyStreakFreeze,
+} from '@/types/streak';
 
 function generateId() {
   return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
@@ -38,6 +45,9 @@ interface TodoContextType {
 
   addCategory: (category: Omit<Category, 'id'>) => void;
   deleteCategory: (id: string) => void;
+
+  streak: StreakState;
+  useStreakFreeze: () => boolean; // returns true if freeze was applied
 }
 
 const TodoContext = createContext<TodoContextType | null>(null);
@@ -53,10 +63,12 @@ export function TodoProvider({ children }: { children: ReactNode }) {
   const [goals, setGoals] = useState<Goal[]>(() => loadFromStorage('todo-goals', []));
   const [categories, setCategories] = useState<Category[]>(() => loadFromStorage('todo-categories', DEFAULT_CATEGORIES));
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [streak, setStreak] = useState<StreakState>(loadStreakFromStorage);
 
   useEffect(() => saveToStorage('todo-tasks', tasks), [tasks]);
   useEffect(() => saveToStorage('todo-goals', goals), [goals]);
   useEffect(() => saveToStorage('todo-categories', categories), [categories]);
+  useEffect(() => saveStreakToStorage(streak), [streak]);
 
   // Recalculate goal progress whenever tasks change
   useEffect(() => {
@@ -87,7 +99,14 @@ export function TodoProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toggleTask = useCallback((id: string) => {
-    setTasks(prev => prev.map(t => t.id === id ? { ...t, completed: !t.completed } : t));
+    setTasks(prev => {
+      const next = prev.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
+      const task = next.find(t => t.id === id);
+      if (task?.completed) {
+        setStreak(s => recordStreakActivity(s));
+      }
+      return next;
+    });
   }, []);
 
   const toggleSubtask = useCallback((taskId: string, subtaskId: string) => {
@@ -136,11 +155,25 @@ export function TodoProvider({ children }: { children: ReactNode }) {
     setCategories(prev => prev.filter(c => c.id !== id));
   }, []);
 
+  const useStreakFreeze = useCallback(() => {
+    let applied = false;
+    setStreak(prev => {
+      const next = applyStreakFreeze(prev);
+      if (next) {
+        applied = true;
+        return next;
+      }
+      return prev;
+    });
+    return applied;
+  }, []);
+
   return (
     <TodoContext.Provider value={{
       tasks, goals, categories, selectedCategoryId, setSelectedCategoryId,
       addTask, updateTask, deleteTask, toggleTask, toggleSubtask, addSubtask, deleteSubtask, incrementPomodoro,
       addGoal, updateGoal, deleteGoal, addCategory, deleteCategory,
+      streak, useStreakFreeze,
     }}>
       {children}
     </TodoContext.Provider>
