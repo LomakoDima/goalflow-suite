@@ -20,7 +20,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           Focus<span className="text-primary">Flow</span>
         </h1>
         <p className="text-xs text-muted-foreground mt-1">
-          {completedTasks}/{totalTasks} задач выполнено
+          {completedTasks}/{totalTasks} tasks completed
         </p>
       </div>
 
@@ -36,7 +36,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           )}
         >
           <LayoutGrid className="h-4 w-4" />
-          Задачи
+          Tasks
         </button>
         <button
           onClick={() => setActiveView('goals')}
@@ -48,7 +48,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           )}
         >
           <Target className="h-4 w-4" />
-          Цели
+          Goals
           {goals.length > 0 && (
             <span className="ml-auto text-xs text-muted-foreground">{goals.length}</span>
           )}
@@ -58,7 +58,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       {/* Categories */}
       <div className="px-3 mt-4">
         <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-2">
-          Категории
+          Categories
         </h3>
         <div className="space-y-0.5">
           <button
@@ -71,7 +71,7 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
             )}
           >
             <FolderOpen className="h-4 w-4" />
-            Все
+            All
           </button>
           {categories.map(cat => {
             const count = tasks.filter(t => t.categoryId === cat.id).length;

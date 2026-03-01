@@ -68,7 +68,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
       {expanded && goalTasks.length === 0 && (
         <div className="px-4 pb-4">
           <p className="text-xs text-muted-foreground text-center py-3">
-            Нет задач. Добавьте задачу и привяжите к этой цели.
+            No tasks yet. Create a task and link it to this goal.
           </p>
         </div>
       )}

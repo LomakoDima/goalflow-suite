@@ -34,39 +34,39 @@ export function AddGoalDialog() {
       <DialogTrigger asChild>
         <Button size="sm" variant="outline" className="gap-1.5 border-border text-foreground hover:bg-secondary">
           <Target className="h-4 w-4" />
-          Цель
+          Goal
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md bg-card border-border">
         <DialogHeader>
-          <DialogTitle className="font-display">Новая цель</DialogTitle>
+          <DialogTitle className="font-display">New Goal</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label className="text-xs text-muted-foreground">Название</Label>
+            <Label className="text-xs text-muted-foreground">Title</Label>
             <Input
               value={title}
               onChange={e => setTitle(e.target.value)}
-              placeholder='Например: "Запустить MVP Auralis"'
+              placeholder='e.g. "Launch Auralis MVP"'
               className="mt-1 bg-secondary border-0"
               autoFocus
             />
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground">Описание</Label>
+            <Label className="text-xs text-muted-foreground">Description</Label>
             <Textarea
               value={description}
               onChange={e => setDescription(e.target.value)}
-              placeholder="Опишите цель..."
+              placeholder="Describe your goal..."
               className="mt-1 bg-secondary border-0 resize-none"
               rows={2}
             />
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground">Категория</Label>
+            <Label className="text-xs text-muted-foreground">Category</Label>
             <Select value={categoryId} onValueChange={setCategoryId}>
               <SelectTrigger className="mt-1 bg-secondary border-0">
-                <SelectValue placeholder="Без категории" />
+                <SelectValue placeholder="No category" />
               </SelectTrigger>
               <SelectContent>
                 {categories.map(c => (
@@ -76,7 +76,7 @@ export function AddGoalDialog() {
             </Select>
           </div>
           <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-            Создать цель
+            Create Goal
           </Button>
         </form>
       </DialogContent>
