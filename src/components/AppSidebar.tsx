@@ -2,6 +2,7 @@ import { useTodo } from '@/stores/TodoContext';
 import { Target, FolderOpen, LayoutGrid } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { StreakWidget } from '@/components/StreakWidget';
+import { ChallengesWidget } from '@/components/ChallengesWidget';
 
 interface AppSidebarProps {
   activeView: 'tasks' | 'goals';
@@ -101,8 +102,9 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         </div>
       </div>
 
-      <div className="p-3">
+      <div className="p-3 space-y-3">
         <StreakWidget />
+        <ChallengesWidget />
       </div>
 
       <div className="mt-auto p-3 border-t border-sidebar-border">

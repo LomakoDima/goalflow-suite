@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { PomodoroMode, POMODORO_DURATIONS } from '@/types/todo';
 import { useTodo } from '@/stores/TodoContext';
-import { Play, Pause, RotateCcw, SkipForward, Timer } from 'lucide-react';
+import { Play, Pause, RotateCcw, SkipForward, Timer, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
@@ -67,6 +67,24 @@ export function PomodoroTimer() {
         <Timer className={cn("h-4 w-4", isWork ? "text-pomodoro" : "text-pomodoro-break")} />
         <h3 className="font-display font-semibold text-sm text-foreground">Pomodoro</h3>
         <span className="ml-auto text-xs text-muted-foreground">{sessionsCompleted} sessions</span>
+        {typeof window !== 'undefined' && (
+          <Button
+            size="icon"
+            variant="ghost"
+            className="h-7 w-7 text-muted-foreground hover:text-foreground"
+            onClick={() => {
+              const url = `${window.location.origin}/pomodoro-window`;
+              window.open(
+                url,
+                'pomodoroWindow',
+                'width=320,height=420,menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=no'
+              );
+            }}
+            title="Open timer in a separate window"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+          </Button>
+        )}
       </div>
 
       {/* Mode Tabs */}
