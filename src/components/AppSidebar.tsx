@@ -7,9 +7,11 @@ import { ChallengesWidget } from '@/components/ChallengesWidget';
 interface AppSidebarProps {
   activeView: 'tasks' | 'goals';
   setActiveView: (v: 'tasks' | 'goals') => void;
+  /** Call after navigation (e.g. close mobile drawer). */
+  onNavigate?: () => void;
 }
 
-export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
+export function AppSidebar({ activeView, setActiveView, onNavigate }: AppSidebarProps) {
   const { categories, selectedCategoryId, setSelectedCategoryId, goals, tasks } = useTodo();
 
   const totalTasks = tasks.length;
@@ -29,7 +31,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
       {/* Navigation */}
       <nav className="p-3 space-y-1">
         <button
-          onClick={() => setActiveView('tasks')}
+          onClick={() => {
+            setActiveView('tasks');
+            onNavigate?.();
+          }}
           className={cn(
             "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all",
             activeView === 'tasks'
@@ -41,7 +46,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
           Tasks
         </button>
         <button
-          onClick={() => setActiveView('goals')}
+          onClick={() => {
+            setActiveView('goals');
+            onNavigate?.();
+          }}
           className={cn(
             "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all",
             activeView === 'goals'
@@ -64,7 +72,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
         </h3>
         <div className="space-y-0.5">
           <button
-            onClick={() => setSelectedCategoryId(null)}
+            onClick={() => {
+              setSelectedCategoryId(null);
+              onNavigate?.();
+            }}
             className={cn(
               "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all",
               selectedCategoryId === null
@@ -80,7 +91,10 @@ export function AppSidebar({ activeView, setActiveView }: AppSidebarProps) {
             return (
               <button
                 key={cat.id}
-                onClick={() => setSelectedCategoryId(cat.id)}
+                onClick={() => {
+                  setSelectedCategoryId(cat.id);
+                  onNavigate?.();
+                }}
                 className={cn(
                   "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all",
                   selectedCategoryId === cat.id

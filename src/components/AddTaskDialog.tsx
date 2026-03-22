@@ -46,7 +46,7 @@ export function AddTaskDialog() {
           Task
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-card border-border">
+      <DialogContent className="max-h-[min(90dvh,800px)] overflow-y-auto sm:max-w-md bg-card border-border">
         <DialogHeader>
           <DialogTitle className="font-display">New Task</DialogTitle>
         </DialogHeader>
@@ -62,7 +62,7 @@ export function AddTaskDialog() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <Label className="text-xs text-muted-foreground">Priority</Label>
               <Select value={priority} onValueChange={v => setPriority(v as Priority)}>
@@ -99,7 +99,7 @@ export function AddTaskDialog() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <Label className="text-xs text-muted-foreground">Category</Label>
               <Select value={categoryId} onValueChange={setCategoryId}>

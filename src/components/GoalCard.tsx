@@ -19,7 +19,7 @@ export function GoalCard({ goal }: { goal: Goal }) {
           <Target className="h-4 w-4 text-primary" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <h3 className="font-display font-semibold text-sm text-foreground">{goal.title}</h3>
             {category && (
               <span

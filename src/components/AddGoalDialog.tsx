@@ -37,7 +37,7 @@ export function AddGoalDialog() {
           Goal
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-card border-border">
+      <DialogContent className="max-h-[min(90dvh,800px)] overflow-y-auto sm:max-w-md bg-card border-border">
         <DialogHeader>
           <DialogTitle className="font-display">New Goal</DialogTitle>
         </DialogHeader>

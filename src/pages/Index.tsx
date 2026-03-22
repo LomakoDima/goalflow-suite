@@ -6,13 +6,18 @@ import { TaskItem } from '@/components/TaskItem';
 import { GoalCard } from '@/components/GoalCard';
 import { AddTaskDialog } from '@/components/AddTaskDialog';
 import { AddGoalDialog } from '@/components/AddGoalDialog';
-import { ListFilter } from 'lucide-react';
+import { ListFilter, Menu, Timer } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 
 function MainContent() {
   const { tasks, goals, selectedCategoryId } = useTodo();
   const [activeView, setActiveView] = useState<'tasks' | 'goals'>('tasks');
   const [sortBy, setSortBy] = useState<'priority' | 'deadline' | 'created'>('priority');
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [pomoSheetOpen, setPomoSheetOpen] = useState(false);
 
   const filteredTasks = tasks.filter(t => {
     if (selectedCategoryId && t.categoryId !== selectedCategoryId) return false;
@@ -41,31 +46,86 @@ function MainContent() {
   });
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <AppSidebar activeView={activeView} setActiveView={setActiveView} />
+    <div className="flex h-screen flex-col overflow-hidden md:flex-row">
+      {mobileNavOpen && (
+        <button
+          type="button"
+          className="fixed inset-0 z-30 bg-black/80 md:hidden"
+          aria-label="Close menu"
+          onClick={() => setMobileNavOpen(false)}
+        />
+      )}
 
-      {/* Main Area */}
-      <div className="flex-1 flex overflow-hidden">
-        <div className="flex-1 overflow-y-auto scrollbar-thin p-6">
+      <aside
+        className={cn(
+          'fixed inset-y-0 left-0 z-40 flex h-full w-[min(18rem,85vw)] shrink-0 flex-col overflow-y-auto border-r border-sidebar-border bg-sidebar scrollbar-thin transition-transform duration-300 ease-out',
+          'md:relative md:z-0 md:h-full md:w-72 md:translate-x-0 md:transition-none',
+          mobileNavOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        <AppSidebar
+          activeView={activeView}
+          setActiveView={setActiveView}
+          onNavigate={() => setMobileNavOpen(false)}
+        />
+      </aside>
+
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <header className="flex shrink-0 items-center gap-2 border-b border-border bg-background/95 px-3 py-2.5 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:hidden">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="shrink-0"
+            aria-label="Open menu"
+            onClick={() => setMobileNavOpen(true)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">FocusFlow</p>
+            <h2 className="font-display truncate text-lg font-bold leading-tight text-foreground">
+              {activeView === 'tasks' ? 'Tasks' : 'Goals'}
+            </h2>
+            <p className="truncate text-xs text-muted-foreground">
+              {activeView === 'tasks'
+                ? `${standaloneTasks.filter(t => !t.completed).length} active tasks`
+                : `${filteredGoals.length} goals`}
+            </p>
+          </div>
+          <Sheet open={pomoSheetOpen} onOpenChange={setPomoSheetOpen}>
+            <SheetTrigger asChild>
+              <Button type="button" variant="outline" size="icon" className="shrink-0" aria-label="Pomodoro">
+                <Timer className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="bottom" className="max-h-[min(90vh,560px)] overflow-y-auto rounded-t-2xl p-4 sm:p-6">
+              <PomodoroTimer />
+            </SheetContent>
+          </Sheet>
+        </header>
+
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
+          <div className="min-h-0 flex-1 overflow-y-auto scrollbar-thin p-4 sm:p-6">
           {/* Header */}
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="font-display text-2xl font-bold text-foreground">
+          <div className="mb-4 flex flex-col gap-4 sm:mb-6 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0 hidden md:block">
+              <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">
                 {activeView === 'tasks' ? 'Tasks' : 'Goals'}
               </h2>
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <p className="mt-0.5 text-sm text-muted-foreground">
                 {activeView === 'tasks'
                   ? `${standaloneTasks.filter(t => !t.completed).length} active tasks`
                   : `${filteredGoals.length} goals`
                 }
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {activeView === 'tasks' && (
-                <div className="flex items-center gap-1.5">
-                  <ListFilter className="h-3.5 w-3.5 text-muted-foreground" />
+                <div className="flex min-w-0 items-center gap-1.5">
+                  <ListFilter className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                   <Select value={sortBy} onValueChange={v => setSortBy(v as any)}>
-                    <SelectTrigger className="h-8 w-32 text-xs bg-secondary border-0">
+                    <SelectTrigger className="h-8 w-full min-w-[7.5rem] max-w-[10rem] text-xs bg-secondary border-0 sm:w-32">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -105,11 +165,11 @@ function MainContent() {
               ))}
             </div>
           )}
-        </div>
+          </div>
 
-        {/* Right Panel - Pomodoro */}
-        <div className="w-72 border-l border-border p-4 overflow-y-auto scrollbar-thin hidden lg:block">
-          <PomodoroTimer />
+          <div className="hidden w-72 shrink-0 overflow-y-auto border-l border-border p-4 scrollbar-thin lg:block">
+            <PomodoroTimer />
+          </div>
         </div>
       </div>
     </div>
